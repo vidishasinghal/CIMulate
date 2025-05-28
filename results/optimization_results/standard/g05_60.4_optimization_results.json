@@ -1,0 +1,47 @@
+[
+  {
+    "trial": 1,
+    "optimal_params": {
+      "alpha": 1.3851582954782424,
+      "coupling_coeff": -0.6689410532249688,
+      "p": 1.854302684367493
+    },
+    "maxcut_value": 527.0
+  },
+  {
+    "trial": 2,
+    "optimal_params": {
+      "alpha": 1.834044009405148,
+      "coupling_coeff": -0.2803958310512841,
+      "p": 1.1002173121529553
+    },
+    "maxcut_value": 527.0
+  },
+  {
+    "trial": 3,
+    "optimal_params": {
+      "alpha": 2.936523151438795,
+      "coupling_coeff": -0.6868892460189164,
+      "p": 2.4154129697716966
+    },
+    "maxcut_value": 525.0
+  },
+  {
+    "trial": 4,
+    "optimal_params": {
+      "alpha": 2.5565769571069374,
+      "coupling_coeff": -0.27977889658799193,
+      "p": 1.188600897812104
+    },
+    "maxcut_value": 527.0
+  },
+  {
+    "trial": 5,
+    "optimal_params": {
+      "alpha": 1.3725204227553418,
+      "coupling_coeff": -0.6547848336839953,
+      "p": 1.853858201038273
+    },
+    "maxcut_value": 525.0
+  }
+]
