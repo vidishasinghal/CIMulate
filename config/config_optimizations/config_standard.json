@@ -4,14 +4,14 @@
     "date": "2025-05-25",
 
     "cim_type": "standard",
-    "T": 1000,
-    "dt": 0.001,
+    "T": 100,
+    "dt": 0.01,
     "noise_level": 0.00,
  
     "J_files": [
         {
-        "path" : "data/gset/gset_test.txt",
-        "N" : 800
+        "path" : "data/biqmac/g05/g05_60.4.txt",
+        "N" : 60
         }
     ],
 

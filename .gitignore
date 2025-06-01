@@ -1,2 +1,13 @@
-/.DS_Store
-/cimsim
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore environment folders
+cim_venv/
+.env/
+
+# Ignore log files
+*.log
+
+# Ignore system files
+.DS_Store

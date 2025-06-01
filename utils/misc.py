@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import json
 import pandas as pd
 import os
+import cupy as cp
+import psutil
+import platform
 
 def create_partition_from_opo_amplitudes(x):
     """
@@ -13,7 +16,8 @@ def create_partition_from_opo_amplitudes(x):
     partition = np.where(x >= 0, 1, -1)    
     return partition
 
-def evaluate_maxcut_value_from_partition(coupling_matrix, partition):
+
+def evaluate_maxcut(coupling_matrix, partition):
     """    
     Inputs:
     - coupling_matrix: A square matrix where element (i, j) represents the weight of the edge between nodes i and j.
@@ -37,6 +41,24 @@ def evaluate_maxcut_value_from_partition(coupling_matrix, partition):
     print(f"Cut value: {cut_value}")
 
     return cut_value
+
+
+
+def evaluate_maxcut_fast(coupling_matrix, partition):
+    """
+    Fast Max-Cut evaluation.
+    partition is an array of -1 / +1 (or 0 / 1) labels.
+    """
+    part_col = partition.reshape(-1, 1)
+
+    diff_mask = part_col != part_col.T
+
+    cut = coupling_matrix[diff_mask].sum() * 0.5
+
+    print(f"Cut value: {cut}")
+
+    return float(cut)
+
 
 
 def combine_cim_results_to_excel(cim_type):
@@ -104,3 +126,31 @@ def brute_force_maxcut(coupling_matrix):
             best_partition = partition
     
     return max_cut_value
+
+
+def print_device_info():
+    # Print GPU information if available, then print CPU information
+    try:
+        device_count = cp.cuda.runtime.getDeviceCount()
+        if device_count == 0:
+            print("No GPU detected, running on CPU.")
+        else:
+            for i in range(device_count):
+                props = cp.cuda.runtime.getDeviceProperties(i)
+                name = props['name'].decode('utf-8') if isinstance(props['name'], bytes) else props['name']
+                major = props['major']
+                minor = props['minor']
+                total_mem = props['totalGlobalMem'] / (1024**3)  # bytes to GB
+
+                print(f"\nGPU {i+1} detected: {name}")
+                print(f"  Compute Capability: {major}.{minor}")
+                print(f"  Total Memory: {total_mem:.2f} GB")
+            print("\nGPU is available!")
+    except cp.cuda.runtime.CUDARuntimeError:
+        print("CUDA runtime error encountered, running on CPU.")
+    
+    # Print CPU information
+    print("\nCPU Info:")
+    print(f"  Processor: {platform.processor()}")
+    print(f"  Physical cores: {psutil.cpu_count(logical=False)}")
+    print(f"  Total cores: {psutil.cpu_count(logical=True)}\n")

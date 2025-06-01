@@ -1,0 +1,26 @@
+{
+    "description": "Config file to run Bayesian optimization on all problems listed under J_files on the CIM-SNN",
+    "author": "Vidisha Singhal",
+    "date": "2025-05-31",
+
+    "cim_type": "snn",
+    "T": 100,
+    "dt": 0.01,
+    "noise_level": 0.00,
+ 
+    "J_files": [
+        {
+        "path" : "data/biqmac/g05/g05_60.4.txt",
+        "N" : 60
+        }
+    ],
+
+    "pbounds": {
+        "alpha": [1, 3],
+        "p": [1.1, 3],
+        "coupling_coeff": [-1, -0.001],
+        "lambda_snn": [0.01, 1.0]
+    },
+
+    "output_file": "results/optimization_results/snn_optimization_results.json"
+}

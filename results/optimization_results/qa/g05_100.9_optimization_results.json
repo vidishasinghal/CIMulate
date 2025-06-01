@@ -1,0 +1,32 @@
+[
+  {
+    "trial": 1,
+    "optimal_params": {
+      "M": 5.607361887812855,
+      "alpha": 3.0,
+      "coupling_coeff": -1.0,
+      "p": 1.1
+    },
+    "maxcut_value": 1430.0
+  },
+  {
+    "trial": 2,
+    "optimal_params": {
+      "M": 7.1987181380211,
+      "alpha": 2.7994931123175046,
+      "coupling_coeff": -0.3496451001279933,
+      "p": 1.2002756659024292
+    },
+    "maxcut_value": 1430.0
+  },
+  {
+    "trial": 1,
+    "optimal_params": {
+      "M": 37.299906267399656,
+      "alpha": 2.9683572350931087,
+      "coupling_coeff": -0.9017685935437822,
+      "p": 2.3613698160206873
+    },
+    "maxcut_value": 1426.0
+  }
+]
