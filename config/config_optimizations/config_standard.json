@@ -10,15 +10,75 @@
  
     "J_files": [
         {
-        "path" : "data/biqmac/g05/g05_60.4.txt",
-        "N" : 60
+            "path": "data/biqmac/pm1s/pm1s_80.4.txt",
+            "N": 80
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.7.txt",
+            "N": 80
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.9.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.5.txt",
+            "N": 100
+        },
+        {
+            "path": "data/gset/G6.txt",
+            "N": 800
+        },
+        {
+            "path": "data/gset/G9.txt",
+            "N": 800
+        },
+        {
+            "path": "data/gset/G30.txt",
+            "N": 2000
+        },
+        {
+            "path": "data/gset/G27.txt",
+            "N": 2000
+        },
+        {
+            "path": "data/gset/G59.txt",
+            "N": 5000
+        },
+        {
+            "path": "data/gset/G57.txt",
+            "N": 5000
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.5.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.8.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.2.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.9.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.0.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.3.txt",
+            "N": 100
         }
     ],
 
     "pbounds": {
-        "alpha": [1, 3],
-        "p": [1.1, 3],
-        "coupling_coeff": [-1, -0.001]
+        "alpha": [-2.0, 2.0],
+        "p": [1.001, 3.0],
+        "coupling_coeff": [-1.0, -0.001]
     },
 
     "output_file": "results/optimization_results/standard_optimization_results.json"

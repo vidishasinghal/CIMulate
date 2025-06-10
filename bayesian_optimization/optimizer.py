@@ -61,6 +61,11 @@ class CIMOptimizer:
         
         self.x0 = np.random.uniform(-0.01, 0.01, self.N)                            # Reset initial state for each run of optimization
 
+        '''if self.cim_func == cim_cac.cim_cac or cim_cac.cim_cac_gpu:
+            params["c_cac"] = 1.0
+        elif self.cim_func == cim_cfc.cim_cfc or cim_cfc.cim_cfc_gpu:
+            params["c_cfc"] = 1.0'''
+
         states, x = self.cim_func(
             self.x0,
             J=self.J,
@@ -99,7 +104,7 @@ class CIMOptimizer:
                 params = optimizer.max["params"]
                 target = optimizer.max["target"]
 
-                print("Best result: {}; f(x) = {:.3f}.".format(params, target))
+                #print("Best result: {}; f(x) = {:.3f}.".format(params, target))
 
                 self.log_results(params, target, problem, trial)
 
@@ -138,7 +143,7 @@ class CIMOptimizer:
         params = optimizer.max["params"]
         target = optimizer.max["target"]
 
-        print("Best result: {}; f(x) = {:.3f}.".format(params, target))
+        #print("Best result: {}; f(x) = {:.3f}.".format(params, target))
 
         self.log_results(params, target, problem, trial)
 

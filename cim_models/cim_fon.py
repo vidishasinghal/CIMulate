@@ -54,7 +54,7 @@ def cim_fon_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff, beta):
     - p: constant pump rate paramter (can test linear or other functions as extension to this work)
     - coupling_coeff: strenght of coupling (xi in the paper)
     """
-    print("Running standard CIM on GPU (large N)...")
+    #print("Running standard CIM on GPU (large N)...")
 
     # Move data to GPU
     x0_gpu = cp.array(x0)

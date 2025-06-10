@@ -1,0 +1,112 @@
+[
+  {
+    "trial": 1,
+    "optimal_params": {
+      "alpha": 1.4485939896833595,
+      "c_cac": 0.928374851307188,
+      "coupling_coeff": -0.620768002741313,
+      "p": 1.001,
+      "rho_cac": 0.30684228219236914
+    },
+    "maxcut_value": 3254.0
+  },
+  {
+    "trial": 2,
+    "optimal_params": {
+      "alpha": 2.0,
+      "c_cac": 1.0,
+      "coupling_coeff": -0.7932889299307081,
+      "p": 1.0869472506323765,
+      "rho_cac": 0.8923422146065265
+    },
+    "maxcut_value": 3200.0
+  },
+  {
+    "trial": 3,
+    "optimal_params": {
+      "alpha": 2.0,
+      "c_cac": 1.0,
+      "coupling_coeff": -1.0,
+      "p": 1.001,
+      "rho_cac": 1.0
+    },
+    "maxcut_value": 3200.0
+  },
+  {
+    "trial": 4,
+    "optimal_params": {
+      "alpha": 1.1464434813514397,
+      "c_cac": 1.0,
+      "coupling_coeff": -1.0,
+      "p": 1.001,
+      "rho_cac": 1.0
+    },
+    "maxcut_value": 3203.0
+  },
+  {
+    "trial": 5,
+    "optimal_params": {
+      "alpha": 1.1089351226321118,
+      "c_cac": 0.7087746171530432,
+      "coupling_coeff": -0.13673410340625736,
+      "p": 1.1824652739038792,
+      "rho_cac": 0.25545500590244946
+    },
+    "maxcut_value": 3153.0
+  },
+  {
+    "trial": 6,
+    "optimal_params": {
+      "alpha": 1.9481237250320387,
+      "c_cac": 0.2410364229861527,
+      "coupling_coeff": -0.23389956304372495,
+      "p": 1.0143703256467644,
+      "rho_cac": 0.7085777058298518
+    },
+    "maxcut_value": 3209.0
+  },
+  {
+    "trial": 7,
+    "optimal_params": {
+      "alpha": 2.0,
+      "c_cac": 1.0,
+      "coupling_coeff": -1.0,
+      "p": 1.001,
+      "rho_cac": 1.0
+    },
+    "maxcut_value": 3205.0
+  },
+  {
+    "trial": 8,
+    "optimal_params": {
+      "alpha": 0.18609912613141333,
+      "c_cac": 0.9984200711898723,
+      "coupling_coeff": -0.47269733123481295,
+      "p": 1.0243800532166611,
+      "rho_cac": 0.03403778744338198
+    },
+    "maxcut_value": 3187.0
+  },
+  {
+    "trial": 9,
+    "optimal_params": {
+      "alpha": 2.0,
+      "c_cac": 0.30949086858542385,
+      "coupling_coeff": -1.0,
+      "p": 1.001,
+      "rho_cac": 1.0
+    },
+    "maxcut_value": 3180.0
+  },
+  {
+    "trial": 10,
+    "optimal_params": {
+      "alpha": 2.0,
+      "c_cac": 1.0,
+      "coupling_coeff": -1.0,
+      "p": 1.001,
+      "rho_cac": 1.0
+    },
+    "maxcut_value": 3213.0
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "trial": 1,
+    "optimal_params": {
+      "alpha": 0.4140248447679622,
+      "coupling_coeff": -0.9357048150538713,
+      "lambda_snn": 0.09152577670506001,
+      "p": 1.0534171133017456
+    },
+    "maxcut_value": 2123.0
+  },
+  {
+    "trial": 2,
+    "optimal_params": {
+      "alpha": 0.9720621265225456,
+      "coupling_coeff": -1.0,
+      "lambda_snn": 1.0,
+      "p": 1.001
+    },
+    "maxcut_value": 2138.0
+  },
+  {
+    "trial": 3,
+    "optimal_params": {
+      "alpha": 1.9353637221293645,
+      "coupling_coeff": -0.41469820493257403,
+      "lambda_snn": 0.30897743411639667,
+      "p": 2.0097150253880827
+    },
+    "maxcut_value": 2143.0
+  },
+  {
+    "trial": 4,
+    "optimal_params": {
+      "alpha": 0.6351322965172974,
+      "coupling_coeff": -0.23816398038172115,
+      "lambda_snn": 0.017711913720150966,
+      "p": 1.2300217232139603
+    },
+    "maxcut_value": 2107.0
+  },
+  {
+    "trial": 5,
+    "optimal_params": {
+      "alpha": 0.7904457712020299,
+      "coupling_coeff": -0.20899716055194706,
+      "lambda_snn": 0.8353639510084779,
+      "p": 1.3262957955103887
+    },
+    "maxcut_value": 2107.0
+  },
+  {
+    "trial": 6,
+    "optimal_params": {
+      "alpha": 0.32294503531178864,
+      "coupling_coeff": -1.0,
+      "lambda_snn": 0.9206797847329196,
+      "p": 1.5191439055617608
+    },
+    "maxcut_value": 2110.0
+  },
+  {
+    "trial": 7,
+    "optimal_params": {
+      "alpha": 0.804152433531041,
+      "coupling_coeff": -0.45730628599337997,
+      "lambda_snn": 0.8066354436384948,
+      "p": 1.2216795534487237
+    },
+    "maxcut_value": 2120.0
+  },
+  {
+    "trial": 8,
+    "optimal_params": {
+      "alpha": 1.9171230237870756,
+      "coupling_coeff": -1.0,
+      "lambda_snn": 0.1255612699202052,
+      "p": 1.001
+    },
+    "maxcut_value": 2132.0
+  },
+  {
+    "trial": 9,
+    "optimal_params": {
+      "alpha": 0.43844833597661337,
+      "coupling_coeff": -0.6948714656070669,
+      "lambda_snn": 0.6998519404789134,
+      "p": 1.5868449956384847
+    },
+    "maxcut_value": 2130.0
+  },
+  {
+    "trial": 10,
+    "optimal_params": {
+      "alpha": 1.2809490896837699,
+      "coupling_coeff": -0.44071780422235685,
+      "lambda_snn": 0.2573882892570034,
+      "p": 1.9356215373965528
+    },
+    "maxcut_value": 2132.0
+  }
+]

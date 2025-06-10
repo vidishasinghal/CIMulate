@@ -1,0 +1,102 @@
+[
+  {
+    "trial": 1,
+    "optimal_params": {
+      "alpha": 0.2395167458939511,
+      "coupling_coeff": -0.8402322242379298,
+      "lambda_snn": 0.31906292861581603,
+      "p": 1.6225806319474656
+    },
+    "maxcut_value": 3400.0
+  },
+  {
+    "trial": 2,
+    "optimal_params": {
+      "alpha": 1.137945442579631,
+      "coupling_coeff": -0.46293077996035414,
+      "lambda_snn": 0.5582894199925137,
+      "p": 1.2198323496371841
+    },
+    "maxcut_value": 3380.0
+  },
+  {
+    "trial": 3,
+    "optimal_params": {
+      "alpha": 0.2808260705913117,
+      "coupling_coeff": -0.30885318082558066,
+      "lambda_snn": 0.6086300572177751,
+      "p": 1.5783439149125598
+    },
+    "maxcut_value": 3378.0
+  },
+  {
+    "trial": 4,
+    "optimal_params": {
+      "alpha": 0.7769065545937068,
+      "coupling_coeff": -0.9272530001423276,
+      "lambda_snn": 0.12198724259375326,
+      "p": 1.0125559116386258
+    },
+    "maxcut_value": 3396.0
+  },
+  {
+    "trial": 5,
+    "optimal_params": {
+      "alpha": 0.30481536612801063,
+      "coupling_coeff": -0.8295597988209237,
+      "lambda_snn": 0.011833224459099134,
+      "p": 1.10223442604924
+    },
+    "maxcut_value": 3374.0
+  },
+  {
+    "trial": 6,
+    "optimal_params": {
+      "alpha": 0.5572610163087193,
+      "coupling_coeff": -0.7820808255438838,
+      "lambda_snn": 0.9053753730967116,
+      "p": 1.7289216554789917
+    },
+    "maxcut_value": 3300.0
+  },
+  {
+    "trial": 7,
+    "optimal_params": {
+      "alpha": 0.8886498752582228,
+      "coupling_coeff": -0.4469136611093727,
+      "lambda_snn": 0.5455652587656746,
+      "p": 1.671124828202817
+    },
+    "maxcut_value": 3390.0
+  },
+  {
+    "trial": 8,
+    "optimal_params": {
+      "alpha": 0.4230682875282237,
+      "coupling_coeff": -0.7363609018233013,
+      "lambda_snn": 0.3593755143008348,
+      "p": 1.4760432425352616
+    },
+    "maxcut_value": 3398.0
+  },
+  {
+    "trial": 9,
+    "optimal_params": {
+      "alpha": 1.8939333231501818,
+      "coupling_coeff": -0.11503412871345209,
+      "lambda_snn": 0.7460364920705376,
+      "p": 2.0323163393841206
+    },
+    "maxcut_value": 3370.0
+  },
+  {
+    "trial": 10,
+    "optimal_params": {
+      "alpha": 1.03581961306288,
+      "coupling_coeff": -1.0,
+      "lambda_snn": 0.6258675143657954,
+      "p": 1.001
+    },
+    "maxcut_value": 3384.0
+  }
+]

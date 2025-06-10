@@ -9,9 +9,12 @@ Copyright (c) 2025 Vidisha Singhal
 import numpy as np
 import cupy as cp
 import time
+import numpy as np
+import matplotlib.pyplot as plt
+import sys
 
 def cim_cac(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_cac):
-    
+
     """
     parameters:
     - x0: Initial state of the system (numpy array of size N)
@@ -28,10 +31,11 @@ def cim_cac(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_c
     """
 
     num_steps = int(T / dt)
-    states = np.zeros((num_steps + 1, N))
+    #states = np.zeros((num_steps + 1, N))
     states_e = np.zeros((num_steps + 1, N))
-    states[0] = x0
-    states_e[0] = np.random.uniform(-0.001, 0.001, N)
+    #states[0] = x0
+    states_e[0] = -np.ones(N)
+    states = None
     
     x = x0
     e = states_e[0]
@@ -48,11 +52,10 @@ def cim_cac(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_c
         x = x + (dx_dt * dt) + noise
         e = e + (de_dt * dt)
         
-        states[step + 1] = x
-        states_e[step + 1] = e
+        #states[step + 1] = x
+        #states_e[step + 1] = e
     
     return states, x
-
 
 def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_cac):
     
@@ -82,7 +85,7 @@ def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, r
     #states[0] = x0
     #states_e[0] = np.random.uniform(-0.001, 0.001, N)
 
-    e = cp.random.uniform(-0.001, 0.001, N)
+    e = -cp.ones(N)
     x = x0_gpu
 
     #e = states_e[0]
@@ -92,7 +95,7 @@ def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, r
     for step in range(num_steps):
         I_inj = -e * coupling_coeff * cp.dot(J_gpu, x)
 
-        x, e = fused_update(x, I_inj, noise[step], dt, alpha, p, e, rho_cac)
+        x, e = fused_update(x, I_inj, noise[step], dt, alpha, p, e, rho_cac, c_cac)
         
         #dx_dt = (p - 1) * x - (alpha * x**3) + I_inj
 
@@ -106,11 +109,13 @@ def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, r
         #states[step + 1] = x
         #states_e[step + 1] = e
     
+    x = cp.asnumpy(x)
+
     return states, x
 
 
 @cp.fuse()
-def fused_update(x, I_inj, noise, dt, alpha, p, e, rho_cac):
+def fused_update(x, I_inj, noise, dt, alpha, p, e, rho_cac, c_cac):
     x_update = (x + (((p - 1) * x - (alpha * x**3) + I_inj) * dt) + noise)
     e_update = e + ((-rho_cac * e * (x**2 - c_cac)) * dt)
     return x_update, e_update

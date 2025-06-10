@@ -61,7 +61,7 @@ def cim_snn_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_s
     - T: total integration time
     - lambda: spiking NN parameter (unique to cim_snn)
     """
-    print("Running standard CIM on GPU (large N)...")
+    #print("Running standard CIM on GPU (large N)...")
 
     # Move data to GPU
     x0_gpu = cp.array(x0)

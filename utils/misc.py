@@ -60,7 +60,6 @@ def evaluate_maxcut_fast(coupling_matrix, partition):
     return float(cut)
 
 
-
 def combine_cim_results_to_excel(cim_type):
     folder_path = os.path.join("results", "optimization_results", cim_type)
     excel_output_path = os.path.join("results", f"{cim_type}_results.xlsx")

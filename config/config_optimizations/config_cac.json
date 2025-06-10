@@ -1,0 +1,87 @@
+{
+    "description": "Config file to run Bayesian optimization on all problems listed under J_files on the CIM-CAC",
+    "author": "Vidisha Singhal",
+    "date": "2025-06-01",
+
+    "cim_type": "cac",
+    "T": 100,
+    "dt": 0.01,
+    "noise_level": 0.00,
+ 
+    "J_files": [
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.4.txt",
+            "N": 80
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.7.txt",
+            "N": 80
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.9.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.5.txt",
+            "N": 100
+        },
+        {
+            "path": "data/gset/G6.txt",
+            "N": 800
+        },
+        {
+            "path": "data/gset/G9.txt",
+            "N": 800
+        },
+        {
+            "path": "data/gset/G30.txt",
+            "N": 2000
+        },
+        {
+            "path": "data/gset/G27.txt",
+            "N": 2000
+        },
+        {
+            "path": "data/gset/G59.txt",
+            "N": 5000
+        },
+        {
+            "path": "data/gset/G57.txt",
+            "N": 5000
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.5.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.8.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.2.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.9.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.0.txt",
+            "N": 100
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.3.txt",
+            "N": 100
+        }
+    ],
+
+    "pbounds": {
+        "alpha": [-2.0, 2.0],
+        "p": [1.001, 3.0],
+        "coupling_coeff": [-1.0, -0.001],
+        "rho_cac": [0.001, 1.00],
+        "c_cac": [0.001, 1.0]
+    },
+
+    "output_file": "results/optimization_results/cac_optimization_results.json"
+}
