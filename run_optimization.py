@@ -10,7 +10,7 @@ import json
 from utils.misc import combine_cim_results_to_excel, print_device_info
 from bayesian_optimization.optimizer import CIMOptimizer
 
-cim_architectures = ["cfc", "cac"] #"standard", "snn", "fon", "qa", "cac", "cfc"
+cim_architectures = ["cfc", "cac", "standard", "snn", "fon", "qa"]
 
 def main():
     print_device_info()
