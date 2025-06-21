@@ -1,0 +1,112 @@
+[
+  {
+    "trial": 1,
+    "optimal_params": {
+      "alpha": -2.0,
+      "beta": -0.7851841329290008,
+      "coupling_coeff": -1.0,
+      "noise_level": 0.001,
+      "p": 1.001
+    },
+    "maxcut_value": 3027.0
+  },
+  {
+    "trial": 2,
+    "optimal_params": {
+      "alpha": -0.5301467310044178,
+      "beta": -2.0,
+      "coupling_coeff": -1.0,
+      "noise_level": 0.001,
+      "p": 1.001
+    },
+    "maxcut_value": 3113.0
+  },
+  {
+    "trial": 3,
+    "optimal_params": {
+      "alpha": 1.8348116117153028,
+      "beta": -0.01,
+      "coupling_coeff": -1.0,
+      "noise_level": 0.001,
+      "p": 2.4411690237412875
+    },
+    "maxcut_value": 3086.0
+  },
+  {
+    "trial": 4,
+    "optimal_params": {
+      "alpha": -0.8043574981238695,
+      "beta": -1.8668979780491652,
+      "coupling_coeff": -1.0,
+      "noise_level": 0.001,
+      "p": 1.6190648103916196
+    },
+    "maxcut_value": 3036.0
+  },
+  {
+    "trial": 5,
+    "optimal_params": {
+      "alpha": 0.30857076361076885,
+      "beta": -1.1867717285704371,
+      "coupling_coeff": -0.9976487647730284,
+      "noise_level": 0.9711779302846879,
+      "p": 2.45988837736607
+    },
+    "maxcut_value": 1283.0
+  },
+  {
+    "trial": 6,
+    "optimal_params": {
+      "alpha": -1.0962325142523563,
+      "beta": -0.10651266146489631,
+      "coupling_coeff": -0.9050618746156972,
+      "noise_level": 3.119602166285998,
+      "p": 2.162985145427826
+    },
+    "maxcut_value": 543.0
+  },
+  {
+    "trial": 7,
+    "optimal_params": {
+      "alpha": 0.8698975081652738,
+      "beta": -0.6579894310845404,
+      "coupling_coeff": -0.7839222005073028,
+      "noise_level": 0.12726455024810007,
+      "p": 2.8430535652979936
+    },
+    "maxcut_value": 2699.0
+  },
+  {
+    "trial": 8,
+    "optimal_params": {
+      "alpha": -0.7457307124321142,
+      "beta": -0.1037462561858069,
+      "coupling_coeff": -0.6701042869120347,
+      "noise_level": 1.976206089479837,
+      "p": 1.1419768919590219
+    },
+    "maxcut_value": 587.0
+  },
+  {
+    "trial": 9,
+    "optimal_params": {
+      "alpha": -0.38472117575013154,
+      "beta": -0.01,
+      "coupling_coeff": -1.0,
+      "noise_level": 3.739996849776269,
+      "p": 1.001
+    },
+    "maxcut_value": 1377.0
+  },
+  {
+    "trial": 10,
+    "optimal_params": {
+      "alpha": -1.6043432212906126,
+      "beta": -0.18975115376535823,
+      "coupling_coeff": -0.5736343385305291,
+      "noise_level": 2.2869067599990993,
+      "p": 1.5843772294434806
+    },
+    "maxcut_value": 122.0
+  }
+]
