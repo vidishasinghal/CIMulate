@@ -109,46 +109,6 @@ class CIMOptimizer:
                 self.log_results(params, target, problem, trial)
 
 
-    def optimize_all_multithreaded(self, init_points=10, n_iter=10, trials=1):
-        for problem in self.problems:
-            self.set_problem_instance(problem)
-            print(f"Optimizing problem: {problem['path']}")
-
-            with concurrent.futures.ThreadPoolExecutor(max_workers=trials) as executor:
-                futures = []
-
-                for trial in range(trials):
-                    print(f"Scheduling Trial {trial + 1}/{trials} for problem {problem['path']}")
-                    futures.append(executor.submit(lambda t=trial: self.run_single_trial(t, problem, init_points, n_iter)))
-                
-                for future in concurrent.futures.as_completed(futures):
-                    future.result()
-
-    
-    def run_single_trial(self, trial, problem, init_points, n_iter):
-        
-        '''for use with optimize_all_multithreaded'''
-
-        optimizer = BayesianOptimization(
-            f=self.black_box_function, 
-            pbounds=self.pbounds,
-            #random_state=1
-        )
-
-        optimizer.maximize(
-            init_points=init_points if init_points is not None else 10,
-            n_iter=n_iter if n_iter is not None else 10
-        )
-
-        params = optimizer.max["params"]
-        target = optimizer.max["target"]
-
-        #print("Best result: {}; f(x) = {:.3f}.".format(params, target))
-
-        self.log_results(params, target, problem, trial)
-
-
-
     def log_results(self, max_params, max_target, problem, trial):
         cim_type = self.cim_type  # e.g., 'standard', 'snn', etc.
         results_dir = os.path.join("results", "optimization_results", cim_type)
@@ -173,3 +133,46 @@ class CIMOptimizer:
 
         with open(filename, "w") as f:
             json.dump(data, f, indent=2)
+
+
+
+
+#TODO: Unused methods below - can refine later but not necessarily needed
+
+'''
+    def optimize_all_multithreaded(self, init_points=10, n_iter=10, trials=1):
+        for problem in self.problems:
+            self.set_problem_instance(problem)
+            print(f"Optimizing problem: {problem['path']}")
+
+            with concurrent.futures.ThreadPoolExecutor(max_workers=trials) as executor:
+                futures = []
+
+                for trial in range(trials):
+                    print(f"Scheduling Trial {trial + 1}/{trials} for problem {problem['path']}")
+                    futures.append(executor.submit(lambda t=trial: self.run_single_trial(t, problem, init_points, n_iter)))
+                
+                for future in concurrent.futures.as_completed(futures):
+                    future.result()
+
+    
+    def run_single_trial(self, trial, problem, init_points, n_iter):
+
+        optimizer = BayesianOptimization(
+            f=self.black_box_function, 
+            pbounds=self.pbounds,
+            #random_state=1
+        )
+
+        optimizer.maximize(
+            init_points=init_points if init_points is not None else 10,
+            n_iter=n_iter if n_iter is not None else 10
+        )
+
+        params = optimizer.max["params"]
+        target = optimizer.max["target"]
+
+        #print("Best result: {}; f(x) = {:.3f}.".format(params, target))
+
+        self.log_results(params, target, problem, trial)
+'''
