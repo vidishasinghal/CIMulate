@@ -1,4 +1,6 @@
-# CIM-Variations-Optimization-and-Benchmarking
+# CIMulate
+
+**Unified Optimization and Benchmarking Framework for Coherent Ising Machine Architectures**
 
 The repository was conceptualized, implemented, and developed as part of original research on Coherent Ising Machine Optimization and Benchmarking.
 
