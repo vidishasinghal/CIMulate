@@ -28,10 +28,12 @@ def standard_cim(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
     """
 
     num_steps = int(T / dt)
+    num_state_saves = (num_steps // steps_save_interval)
     states = None
-    states = np.zeros((num_steps + 1, N))   #saving values of x at each time step here, used to plot evolution of OPOs vs time
+    states = np.zeros((num_state_saves, N))   #saving values of x at each time step here, used to plot evolution of OPOs vs time
     states[0] = x0
     x = x0                                  #initializing x to the initial random state of OPOs
+    save_idx = 0
         
     start_time = time.time()
     
@@ -43,8 +45,10 @@ def standard_cim(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
 
         x = x + (dx_dt * dt) + noise
 
-        if step % steps_save_interval == 0: states[step + 1] = x            #save state only every steps_save_interval steps
-    
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
+
     end_time = time.time()
     simulation_time = end_time - start_time
 
@@ -70,9 +74,11 @@ def standard_cim_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
     J_gpu = cp.array(J)
 
     num_steps = int(T / dt)
-    states = cp.zeros((num_steps + 1, N))       #saving values of x at each time step here, used to plot evolution of OPOs vs time
+    num_state_saves = (num_steps // steps_save_interval)
+    states = cp.zeros((num_state_saves, N))       #saving values of x at each time step here, used to plot evolution of OPOs vs time
     states[0] = x0_gpu
     x = x0_gpu                                  #initializing x to the initial random state of OPOs
+    save_idx = 0
 
     start_time = time.time()
 
@@ -83,7 +89,9 @@ def standard_cim_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
 
         x = fused_update(x, I_inj, noise[step], dt, alpha, p)
 
-        if step % steps_save_interval == 0: states[step + 1] = x
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
 
     # Move results back to CPU
     x = cp.asnumpy(x)

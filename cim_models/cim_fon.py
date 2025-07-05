@@ -25,9 +25,11 @@ def cim_fon(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, beta):
     - beta: coefficient for fifth-order term (x^5 term), unique to cim_fon
     """
     num_steps = int(T / dt)
-    states = np.zeros((num_steps + 1, N))   #saving values of x at each time step here, used to plot evolution of OPOs vs time
+    num_state_saves = (num_steps // steps_save_interval)
+    states = np.zeros((num_state_saves, N))   #saving values of x at each time step here, used to plot evolution of OPOs vs time
     states[0] = x0
     x = x0
+    save_idx = 0
 
     start_time = time.time()
     
@@ -39,7 +41,9 @@ def cim_fon(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, beta):
         
         x = x + (dx_dt * dt) + noise
 
-        if step % steps_save_interval == 0: states[step + 1] = x
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
 
     end_time = time.time()
     simulation_time = end_time - start_time
@@ -69,9 +73,11 @@ def cim_fon_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff, beta):
     J_gpu = cp.array(J)
 
     num_steps = int(T / dt)
-    states = cp.zeros((num_steps + 1, N))       #saving values of x at each time step here, used to plot evolution of OPOs vs time
+    num_state_saves = (num_steps // steps_save_interval) + 1
+    states = cp.zeros((num_state_saves, N))       #saving values of x at each time step here, used to plot evolution of OPOs vs time
     states[0] = x0_gpu
     x = x0_gpu                                  #initializing x to the initial random state of OPOs
+    save_idx = 0
 
     start_time = time.time()
     noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
@@ -87,8 +93,10 @@ def cim_fon_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff, beta):
 
         x = fused_update(x, I_inj, noise[step], dt, alpha, p, beta)
 
-        if step % steps_save_interval == 0: states[step + 1] = x
-    
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
+
     # Move results back to CPU
     x = cp.asnumpy(x)
     states = cp.asnumpy(states)

@@ -26,9 +26,10 @@ def cim_snn(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_snn):
     - lambda: spiking NN parameter (unique to cim_snn)
     """
     num_steps = int(T / dt)
-    states = None
-    states = np.zeros((num_steps + 1, N))
+    num_state_saves = (num_steps // steps_save_interval)
+    states = np.zeros((num_state_saves, N))
     states[0] = x0
+    save_idx = 0
     
     x = x0
 
@@ -46,7 +47,9 @@ def cim_snn(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_snn):
         x = x + (dx_dt * dt) + noise
         b = b + (db_dt * dt)                            #updating the dissipative pulse values as in original paper
 
-        if step % steps_save_interval == 0: states[step + 1] = x
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
 
     end_time = time.time()
     simulation_time = end_time - start_time
@@ -75,9 +78,10 @@ def cim_snn_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_s
     J_gpu = cp.array(J)
 
     num_steps = int(T / dt)
-    states = None
-    states = cp.zeros((num_steps + 1, N))
+    num_state_saves = (num_steps // steps_save_interval)
+    states = cp.zeros((num_state_saves, N))
     states[0] = x0_gpu
+    save_idx = 0
 
     x = x0_gpu
     b = cp.zeros(N)                                     #dissipative pulse values
@@ -91,7 +95,9 @@ def cim_snn_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_s
 
         x, b = fused_update(x, I_inj, noise[step], dt, alpha, p, b, lambda_snn)
 
-        if step % steps_save_interval == 0: states[step + 1] = x
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
 
     x = cp.asnumpy(x)
     states = cp.asnumpy(states)

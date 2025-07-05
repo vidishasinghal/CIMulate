@@ -48,7 +48,8 @@ def evaluate_maxcut_fast(coupling_matrix, partition):
     """
     Fast Max-Cut evaluation.
     partition is an array of -1 / +1 (or 0 / 1) labels.
-    """
+    
+    print("Evaluating Max-Cut using fast method...")
     part_col = partition.reshape(-1, 1)
 
     diff_mask = part_col != part_col.T
@@ -57,7 +58,22 @@ def evaluate_maxcut_fast(coupling_matrix, partition):
 
     #print(f"Cut value: {cut}")
 
-    return float(cut)
+    return float(cut)"""
+
+    # Convert to CuPy arrays
+    coupling_matrix_gpu = cp.asarray(coupling_matrix)
+    partition_gpu = cp.asarray(partition)
+
+    # Reshape for broadcasting
+    part_col = partition_gpu.reshape(-1, 1)
+
+    # Create mask of differing partitions
+    diff_mask = part_col != part_col.T  # Boolean mask
+
+    # Sum the cut weights and divide by 2
+    cut = cp.sum(coupling_matrix_gpu[diff_mask]) * 0.5
+
+    return float(cut.get())  # Convert back to Python float
 
 
 def combine_cim_results_to_excel(cim_type):

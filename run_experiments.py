@@ -11,18 +11,18 @@ from utils.misc import combine_cim_results_to_excel, print_device_info
 from bayesian_optimization.optimizer import CIMOptimizer
 from simulator import CIMSimulator
 
-cim_architectures = ["cfc", "snn", "fon", "qa"]
+cim_architectures = ["cac", "cfc", "snn", "fon", "qa"]
 
 def main():
     print_device_info()
 
-    trials = 1                #number of trials for each problem instance
+    trials = 100               #number of trials for each problem instance
 
     for name in cim_architectures:
         print(f"\nRunning experiments for {name} architecture...\n")
         config_path = f"config/config_{name}.json"
         CIM = CIMSimulator(config_path)
-        CIMSimulator.run_all(CIM, trials=trials)
+        CIM.run_all(trials=trials)
 
         #CIMSimulator.run_noise_scan(problems, trials, noise_levels)
         #CIMSimulator.run_new_param_scan(problems, trials, new_params)

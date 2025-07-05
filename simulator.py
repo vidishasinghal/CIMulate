@@ -7,7 +7,7 @@ from cim_models import standard_cim, cim_qa, cim_snn, cim_cac, cim_cfc, cim_fon
 import csv
 import pandas as pd
 
-target_gs_energies = [0.87, 0.92, 0.95]
+target_gs_energies = [0.87, 0.90, 0.92, 0.96]
 
 CIM_DISPATCH = {
     "standard": standard_cim.standard_cim,
@@ -117,7 +117,8 @@ class CIMSimulator:
 
         #writing to csv file
         with open(filename, mode='w', newline='') as csvfile:
-            fieldnames = ['Trial', 'Cut at T=100', 'Simulation Time (s)', f'T to {target_gs_energies[0]} GS Energy', f'T to {target_gs_energies[1]} GS Energy', f'T to {target_gs_energies[2]} GS Energy', f'Success for {target_gs_energies[0]} GS Energy', f'Success for {target_gs_energies[1]} GS Energy', f'Success for {target_gs_energies[2]} GS Energy']
+
+            fieldnames = ['Trial', 'Cut at T=100', 'Simulation Time (s)', f'T to {target_gs_energies[0]} GS Energy', f'T to {target_gs_energies[1]} GS Energy', f'T to {target_gs_energies[2]} GS Energy', f'T to {target_gs_energies[3]} GS Energy', f'Success for {target_gs_energies[0]} GS Energy', f'Success for {target_gs_energies[1]} GS Energy', f'Success for {target_gs_energies[2]} GS Energy', f'Success for {target_gs_energies[3]} GS Energy']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -131,30 +132,34 @@ class CIMSimulator:
                     f'Success for {target_gs_energies[0]} GS Energy': 1 if all_trials_gs_times[i][0] is not None else 0,
                     f'Success for {target_gs_energies[1]} GS Energy': 1 if all_trials_gs_times[i][1] is not None else 0,
                     f'Success for {target_gs_energies[2]} GS Energy': 1 if all_trials_gs_times[i][2] is not None else 0,
+                    f'Success for {target_gs_energies[3]} GS Energy': 1 if all_trials_gs_times[i][3] is not None else 0,
                     f'T to {target_gs_energies[0]} GS Energy': all_trials_gs_times[i][0] if all_trials_gs_times[i][0] is not None else self.T,
                     f'T to {target_gs_energies[1]} GS Energy': all_trials_gs_times[i][1] if all_trials_gs_times[i][1] is not None else self.T,
                     f'T to {target_gs_energies[2]} GS Energy': all_trials_gs_times[i][2] if all_trials_gs_times[i][2] is not None else self.T,
+                    f'T to {target_gs_energies[3]} GS Energy': all_trials_gs_times[i][3] if all_trials_gs_times[i][3] is not None else self.T,
                 })
 
     def get_cut_for_gs_energy(self, optimal_cut_val, target_gs_energy, states):
-        target = target_gs_energy * optimal_cut_val  # scale the target GS energy by the optimal cut value
+        target = target_gs_energy * optimal_cut_val
         best_time = None
-        if (self.N > 200):
-            for i, state in enumerate(reversed(states)):
-                partition = misc.create_partition_from_opo_amplitudes(state)
-                cut_val = misc.evaluate_maxcut_fast(self.J, partition)
+        coarse_stride = 10
+        step_save_interval = int((self.T / self.dt) / (len(states) - 1))
 
-                if cut_val >= target:
-                    best_time = i * self.dt
-                else:
-                    return best_time
-        else:
-            for i, state in enumerate(states):
-                partition = misc.create_partition_from_opo_amplitudes(state)
-                cut_val = misc.evaluate_maxcut_fast(self.J, partition)
-                if cut_val >= target:
-                    return i * self.dt  # return time in annealing time T when the cut value reaches the target GS energy
-        return best_time
+        #phase 1: coarse scan
+        for i in range(0, len(states), coarse_stride):
+            partition = misc.create_partition_from_opo_amplitudes(states[i])
+            cut_val = misc.evaluate_maxcut_fast(self.J, partition)
+            if cut_val >= target:
+                #phase 2: fine scan around coarse match
+                start = max(0, i - coarse_stride)
+                for j in range(start, i + 1):
+                    partition = misc.create_partition_from_opo_amplitudes(states[j])
+                    cut_val = misc.evaluate_maxcut_fast(self.J, partition)
+                    if cut_val >= target:
+                        return j * self.dt * step_save_interval  # return earliest time found
+                break
+
+        return None  # if not found
 
     def load_optimal_cut(self, problem_name):
         with open("data/problem_metadata.json", "r") as f:
@@ -164,6 +169,7 @@ class CIMSimulator:
     
     def save_to_excel(self):
         results_dir = os.path.join("experimental_results", "baseline", self.cim_type)
+        os.makedirs(results_dir, exist_ok=True)
         output_file = os.path.join("experimental_results", "baseline", f"baseline_results_{self.cim_type}.xlsx")
 
         with pd.ExcelWriter(output_file) as writer:

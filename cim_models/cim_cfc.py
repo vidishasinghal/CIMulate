@@ -29,8 +29,10 @@ def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_c
     """
        
     num_steps = int(T / dt)
-    states = np.zeros((num_steps + 1, N))
-    
+    num_state_saves = (num_steps // steps_save_interval)
+    states = np.zeros((num_state_saves, N))
+    save_idx = 0
+
     x = x0
     e = -np.ones(N)
     states[0] = x0
@@ -49,7 +51,9 @@ def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_c
         x = x + (dx_dt * dt) + noise
         e = e + (de_dt * dt)
 
-        if step % steps_save_interval == 0: states[step + 1] = x
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
 
     end_time = time.time()
     simulation_time = end_time - start_time
@@ -80,8 +84,9 @@ def cim_cfc_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, r
     J_gpu = cp.array(J)
 
     num_steps = int(T / dt)
-    states = None
-    states = cp.zeros((num_steps + 1, N))
+    num_state_saves = (num_steps // steps_save_interval)
+    save_idx = 0
+    states = cp.zeros((num_state_saves, N))
     #states_e = np.zeros((num_steps + 1, N))
     states[0] = x0_gpu
     #states_e[0] = np.random.uniform(-0.001, 0.001, N)
@@ -99,7 +104,9 @@ def cim_cfc_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, r
 
         x, e = fused_update(x, I_inj, noise[step], dt, alpha, p, e, rho_cfc, c_cfc)
         
-        if step % steps_save_interval == 0: states[step + 1] = x
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
         #states_e[step + 1] = e
     
     x = cp.asnumpy(x)

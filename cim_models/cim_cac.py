@@ -33,11 +33,13 @@ def cim_cac(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_c
     """
 
     num_steps = int(T / dt)
-    states = np.zeros((num_steps + 1, N))
-    states_e = np.zeros((num_steps + 1, N))
+    num_state_saves = (num_steps // steps_save_interval)
+    states = np.zeros((num_state_saves, N))
+    states_e = np.zeros((num_state_saves, N))
     states[0] = x0
     states_e[0] = -np.ones(N)
-    
+    save_idx = 0
+
     x = x0
     e = states_e[0]
 
@@ -54,8 +56,10 @@ def cim_cac(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_c
         
         x = x + (dx_dt * dt) + noise
         e = e + (de_dt * dt)
-        
-        if step % steps_save_interval == 0: states[step + 1] = x
+
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
         #states_e[step + 1] = e
     
     end_time = time.time()
@@ -85,10 +89,11 @@ def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, r
     J_gpu = cp.array(J)
 
     num_steps = int(T / dt)
-    states = None
-    states = cp.zeros((num_steps + 1, N))
+    num_state_saves = (num_steps // steps_save_interval)
+    states = cp.zeros((num_state_saves, N))
     #states_e = np.zeros((num_steps + 1, N))
     states[0] = x0_gpu
+    save_idx = 0
     #states_e[0] = np.random.uniform(-0.001, 0.001, N)
 
     e = -cp.ones(N)
@@ -113,8 +118,10 @@ def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, r
         
         #x = x + (dx_dt * dt) + noise
         #e = e + (de_dt * dt)
-        
-        if step % steps_save_interval == 0: states[step + 1] = x
+
+        if step % steps_save_interval == 0:
+            states[save_idx] = x
+            save_idx += 1
         #states_e[step + 1] = e
     
     x = cp.asnumpy(x)
