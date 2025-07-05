@@ -1,0 +1,157 @@
+{
+    "description": "Config file to run CIM-CAC on all problems with optimal parameters",
+    "author": "Vidisha Singhal",
+    "date": "2025-06-29",
+
+    "cim_type": "cac",
+    "T": 100,
+    "dt": 0.01,
+    "noise_level": 0.00,
+
+    "J_files": [
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.4.txt",
+            "N": 80,
+            "alpha": 1.5706,
+            "c_cac": 0.507,
+            "coupling_coeff": -0.7195,
+            "p": 1.183,
+            "rho_cac": 0.9087
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.7.txt",
+            "N": 80,
+            "alpha": 1.8782,
+            "c_cac": 0.4959,
+            "coupling_coeff": -0.231,
+            "p": 1.2611,
+            "rho_cac": 1.0
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.9.txt",
+            "N": 100,
+            "alpha": 1.1714,
+            "c_cac": 0.6208,
+            "coupling_coeff": -0.6456,
+            "p": 1.446,
+            "rho_cac": 0.2873
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.5.txt",
+            "N": 100,
+            "alpha": 0.8533,
+            "c_cac": 0.435,
+            "coupling_coeff": -1.0,
+            "p": 1.1309,
+            "rho_cac": 1.0
+        },
+        {
+            "path": "data/gset/G6.txt",
+            "N": 800,
+            "alpha": 2.0,
+            "c_cac": 1.0,
+            "coupling_coeff": -1.0,
+            "p": 1.001,
+            "rho_cac": 1.0
+        },
+        {
+            "path": "data/gset/G9.txt",
+            "N": 800,
+            "alpha": 1.3469,
+            "c_cac": 1.0,
+            "coupling_coeff": -0.001,
+            "p": 1.001,
+            "rho_cac": 1.0
+        },
+        {
+            "path": "data/gset/G30.txt",
+            "N": 2000,
+            "alpha": 0.5199,
+            "c_cac": 0.8283,
+            "coupling_coeff": -0.9189,
+            "p": 1.0395,
+            "rho_cac": 0.0559
+        },
+        {
+            "path": "data/gset/G27.txt",
+            "N": 2000,
+            "alpha": 1.4486,
+            "c_cac": 0.9284,
+            "coupling_coeff": -0.6208,
+            "p": 1.001,
+            "rho_cac": 0.3068
+        },
+        {
+            "path": "data/gset/G59.txt",
+            "N": 5000,
+            "alpha": 2.0,
+            "c_cac": 1.0,
+            "coupling_coeff": -0.001,
+            "p": 1.001,
+            "rho_cac": 1.0
+        },
+        {
+            "path": "data/gset/G57.txt",
+            "N": 5000,
+            "alpha": 2.0,
+            "c_cac": 1.0,
+            "coupling_coeff": -0.001,
+            "p": 1.001,
+            "rho_cac": 1.0
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.5.txt",
+            "N": 100,
+            "alpha": 1.0493,
+            "c_cac": 0.1245,
+            "coupling_coeff": -0.1584,
+            "p": 1.1742,
+            "rho_cac": 0.1984
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.8.txt",
+            "N": 100,
+            "alpha": 1.2887,
+            "c_cac": 0.3861,
+            "coupling_coeff": -0.0081,
+            "p": 1.1677,
+            "rho_cac": 0.5325
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.2.txt",
+            "N": 100,
+            "alpha": 1.5414,
+            "c_cac": 0.8648,
+            "coupling_coeff": -0.7445,
+            "p": 1.3554,
+            "rho_cac": 0.6417
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.9.txt",
+            "N": 100,
+            "alpha": 1.0796,
+            "c_cac": 0.3451,
+            "coupling_coeff": -1.0,
+            "p": 2.8896,
+            "rho_cac": 0.2597
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.0.txt",
+            "N": 100,
+            "alpha": 1.9264,
+            "c_cac": 0.5681,
+            "coupling_coeff": -0.6234,
+            "p": 1.5796,
+            "rho_cac": 0.5739
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.3.txt",
+            "N": 100,
+            "alpha": 1.9141,
+            "c_cac": 1.0,
+            "coupling_coeff": -1.0,
+            "p": 1.001,
+            "rho_cac": 1.0
+        }
+    ]
+}

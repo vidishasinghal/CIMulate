@@ -15,7 +15,7 @@ cim_architectures = ["cfc", "cac", "standard", "snn", "fon", "qa"]
 def main():
     print_device_info()
 
-    init_points = 10            # Number of initial random points to sample before Bayesian optimization starts
+    init_points = 10           # Number of initial random points to sample before Bayesian optimization starts
     n_iter = 10                # Number of iterations for Bayesian optimization after initial points
     trials = 10                # Number of bayesian optimization trials to run for each configuration (E.g. x trials for each CIM variant and problem instance combination)
 

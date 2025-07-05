@@ -10,6 +10,8 @@ import numpy as np
 import cupy as cp
 import time
 
+steps_save_interval = 100
+
 def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_cfc):
     """
     parameters:
@@ -28,13 +30,12 @@ def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_c
        
     num_steps = int(T / dt)
     states = np.zeros((num_steps + 1, N))
-    states = None
-    #states_e = np.zeros((num_steps + 1, N))
-    #states[0] = x0
-    #states_e[0] = np.random.uniform(-0.001, 0.001, N)
     
     x = x0
     e = -np.ones(N)
+    states[0] = x0
+
+    start_time = time.time()
 
     for step in range(num_steps):
         I_inj = -e * coupling_coeff * np.dot(J, x)
@@ -47,11 +48,13 @@ def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_c
         
         x = x + (dx_dt * dt) + noise
         e = e + (de_dt * dt)
-        
-        #states[step + 1] = x
-        #states_e[step + 1] = e
-    
-    return states, x
+
+        if step % steps_save_interval == 0: states[step + 1] = x
+
+    end_time = time.time()
+    simulation_time = end_time - start_time
+
+    return states, x, simulation_time
 
 
 
@@ -78,9 +81,9 @@ def cim_cfc_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, r
 
     num_steps = int(T / dt)
     states = None
-    #states = np.zeros((num_steps + 1, N))
+    states = cp.zeros((num_steps + 1, N))
     #states_e = np.zeros((num_steps + 1, N))
-    #states[0] = x0
+    states[0] = x0_gpu
     #states_e[0] = np.random.uniform(-0.001, 0.001, N)
 
     e = -cp.ones(N)
@@ -88,6 +91,7 @@ def cim_cfc_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, r
 
     #e = states_e[0]
 
+    start_time = time.time()
     noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
 
     for step in range(num_steps):
@@ -95,21 +99,16 @@ def cim_cfc_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, r
 
         x, e = fused_update(x, I_inj, noise[step], dt, alpha, p, e, rho_cfc, c_cfc)
         
-        #dx_dt = (p - 1) * x - (alpha * x**3) + I_inj
-
-        #de_dt = -rho_cac * e * (x**2 - c_cac)
-        
-        #noise = noise_level * np.sqrt(dt) * np.random.normal(-1, 1, N)
-        
-        #x = x + (dx_dt * dt) + noise
-        #e = e + (de_dt * dt)
-        
-        #states[step + 1] = x
+        if step % steps_save_interval == 0: states[step + 1] = x
         #states_e[step + 1] = e
     
     x = cp.asnumpy(x)
+    states = cp.asnumpy(states)
 
-    return states, x
+    end_time = time.time()
+    simulation_time = end_time - start_time
+
+    return states, x, simulation_time
 
 
 @cp.fuse()

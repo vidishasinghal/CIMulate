@@ -11,6 +11,8 @@ import cupy as cp
 import time
 from utils import misc
 
+steps_save_interval = 100
+
 def standard_cim(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
     """
     params:
@@ -25,20 +27,15 @@ def standard_cim(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
     - coupling_coeff: strenght of coupling (xi in the paper)
     """
 
-    #print("Running standard CIM on CPU (small N)...")
-
     num_steps = int(T / dt)
     states = None
-    #states = np.zeros((num_steps + 1, N))   #saving values of x at each time step here, used to plot evolution of OPOs vs time
-    #states[0] = x0
+    states = np.zeros((num_steps + 1, N))   #saving values of x at each time step here, used to plot evolution of OPOs vs time
+    states[0] = x0
     x = x0                                  #initializing x to the initial random state of OPOs
         
     start_time = time.time()
     
-    # Print whether running on GPU or CPU
-
     for step in range(num_steps):
-        #print(f"Step {step}!")
         I_inj = coupling_coeff * np.dot(J, x)
 
         dx_dt = (p - 1) * x - alpha * x**3 + I_inj
@@ -46,12 +43,12 @@ def standard_cim(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
 
         x = x + (dx_dt * dt) + noise
 
-        #states[step + 1] = x
+        if step % steps_save_interval == 0: states[step + 1] = x            #save state only every steps_save_interval steps
     
     end_time = time.time()
-    print(f"Total time taken for {num_steps} steps: {end_time - start_time} seconds")
+    simulation_time = end_time - start_time
 
-    return states, x
+    return states, x, simulation_time
 
 
 def standard_cim_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
@@ -68,43 +65,34 @@ def standard_cim_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff):
     - p: constant pump rate paramter (can test linear or other functions as extension to this work)
     - coupling_coeff: strenght of coupling (xi in the paper)
     """
-    #print("Running standard CIM on GPU (large N)...")
-
     # Move data to GPU
     x0_gpu = cp.array(x0)
     J_gpu = cp.array(J)
 
     num_steps = int(T / dt)
-    #states = cp.zeros((num_steps + 1, N))       #saving values of x at each time step here, used to plot evolution of OPOs vs time
-    #states[0] = x0_gpu
+    states = cp.zeros((num_steps + 1, N))       #saving values of x at each time step here, used to plot evolution of OPOs vs time
+    states[0] = x0_gpu
     x = x0_gpu                                  #initializing x to the initial random state of OPOs
 
-    noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
-    
     start_time = time.time()
-    
+
+    noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
+
     for step in range(num_steps):
-        #print(f"Step {step}!")
         I_inj = coupling_coeff * cp.dot(J_gpu, x)
-
-        #dx_dt = (p - 1) * x - alpha * x**3 + I_inj
-        #noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, N)
-
-        #x = x + (dx_dt * dt) + noise[step]
 
         x = fused_update(x, I_inj, noise[step], dt, alpha, p)
 
-        #states[step + 1] = x
+        if step % steps_save_interval == 0: states[step + 1] = x
+
+    # Move results back to CPU
+    x = cp.asnumpy(x)
+    states = cp.asnumpy(states)
 
     end_time = time.time()
-    print(f"Total time taken for {num_steps} steps: {end_time - start_time} seconds")
+    simulation_time = end_time - start_time
     
-    # Move results back to CPU
-    #states = cp.asnumpy(states)
-    x = cp.asnumpy(x)
-    states = None
-
-    return states, x
+    return states, x, simulation_time
 
 
 @cp.fuse()

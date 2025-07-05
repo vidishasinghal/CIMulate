@@ -1,0 +1,157 @@
+{
+    "description": "Config file to run CIM-CFC on all problems with optimal parameters",
+    "author": "Vidisha Singhal",
+    "date": "2025-06-29",
+
+    "cim_type": "cfc",
+    "T": 100,
+    "dt": 0.01,
+    "noise_level": 0.00,
+
+    "J_files": [
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.4.txt",
+            "N": 80,
+            "alpha": 0.7398,
+            "c_cfc": 0.4731,
+            "coupling_coeff": -0.2857,
+            "p": 1.2547,
+            "rho_cfc": 0.2470
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.7.txt",
+            "N": 80,
+            "alpha": 1.4047,
+            "c_cfc": 0.0508,
+            "coupling_coeff": -0.6909,
+            "p": 1.2288,
+            "rho_cfc": 0.4726
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.9.txt",
+            "N": 100,
+            "alpha": 0.2915,
+            "c_cfc": 0.8891,
+            "coupling_coeff": -0.6422,
+            "p": 1.3346,
+            "rho_cfc": 0.1484
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.5.txt",
+            "N": 100,
+            "alpha": 2.0,
+            "c_cfc": 1.0,
+            "coupling_coeff": -0.001,
+            "p": 1.001,
+            "rho_cfc": 1.0
+        },
+        {
+            "path": "data/gset/G6.txt",
+            "N": 800,
+            "alpha": 2.0,
+            "c_cfc": 1.0,
+            "coupling_coeff": -0.5667,
+            "p": 2.4141,
+            "rho_cfc": 0.9052
+        },
+        {
+            "path": "data/gset/G9.txt",
+            "N": 800,
+            "alpha": 2.0,
+            "c_cfc": 0.4132,
+            "coupling_coeff": -1.0,
+            "p": 1.001,
+            "rho_cfc": 0.6800
+        },
+        {
+            "path": "data/gset/G30.txt",
+            "N": 2000,
+            "alpha": 2.0,
+            "c_cfc": 1.0,
+            "coupling_coeff": -1.0,
+            "p": 1.001,
+            "rho_cfc": 0.001
+        },
+        {
+            "path": "data/gset/G27.txt",
+            "N": 2000,
+            "alpha": 1.3687,
+            "c_cfc": 0.001,
+            "coupling_coeff": -1.0,
+            "p": 1.001,
+            "rho_cfc": 0.001
+        },
+        {
+            "path": "data/gset/G59.txt",
+            "N": 5000,
+            "alpha": 1.2862,
+            "c_cfc": 1.0,
+            "coupling_coeff": -1.0,
+            "p": 1.001,
+            "rho_cfc": 0.001
+        },
+        {
+            "path": "data/gset/G57.txt",
+            "N": 5000,
+            "alpha": 2.0,
+            "c_cfc": 1.0,
+            "coupling_coeff": -1.0,
+            "p": 1.001,
+            "rho_cfc": 1.0
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.5.txt",
+            "N": 100,
+            "alpha": 2.0,
+            "c_cfc": 1.0,
+            "coupling_coeff": -1.0,
+            "p": 2.3805,
+            "rho_cfc": 0.001
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.8.txt",
+            "N": 100,
+            "alpha": 1.3530,
+            "c_cfc": 1.0,
+            "coupling_coeff": -1.0,
+            "p": 1.4225,
+            "rho_cfc": 1.0
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.2.txt",
+            "N": 100,
+            "alpha": 0.0756,
+            "c_cfc": 0.5577,
+            "coupling_coeff": -0.7479,
+            "p": 1.1984,
+            "rho_cfc": 0.6592
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.9.txt",
+            "N": 100,
+            "alpha": 1.3699,
+            "c_cfc": 0.9597,
+            "coupling_coeff": -0.7520,
+            "p": 1.6344,
+            "rho_cfc": 0.9233
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.0.txt",
+            "N": 100,
+            "alpha": 0.2790,
+            "c_cfc": 0.9261,
+            "coupling_coeff": -0.1947,
+            "p": 1.8127,
+            "rho_cfc": 0.3744
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.3.txt",
+            "N": 100,
+            "alpha": 2.0,
+            "c_cfc": 1.0,
+            "coupling_coeff": -1.0,
+            "p": 1.001,
+            "rho_cfc": 0.001
+        }
+    ]
+}

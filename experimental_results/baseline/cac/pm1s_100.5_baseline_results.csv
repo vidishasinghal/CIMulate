@@ -1,0 +1,3 @@
+Trial,Cut at T=100,Simulation Time (s),T to 0.87 GS Energy,T to 0.92 GS Energy,T to 0.95 GS Energy,Success for 0.87 GS Energy,Success for 0.92 GS Energy,Success for 0.95 GS Energy
+1,116.0,0.3029205799102783,2.0100000000000002,100,100,1,0,0
+2,128.0,0.2987051010131836,2.0100000000000002,2.0100000000000002,5.01,1,1,1

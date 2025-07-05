@@ -9,6 +9,8 @@ import numpy as np
 import cupy as cp
 import time
 
+steps_save_interval = 100
+
 def cim_qa(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
     """
     parameters:
@@ -23,6 +25,7 @@ def cim_qa(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
     - N: Number of nodes in the network
     - M: Number of steps for the interpolation between Jb and Jp
     """
+    M = int(M)                                  #ensure M is an integer
     Jp = J
     num_steps = int(T / dt)
     states = np.zeros((num_steps + 1, N))
@@ -33,6 +36,8 @@ def cim_qa(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
     J_t = Jb                                    #setting initial hamiltonian
 
     interval = num_steps // M                   #computing when hamiltonian needs to be updated
+
+    start_time = time.time()
 
     for step in range(num_steps):
         if step % interval == 0:
@@ -47,9 +52,13 @@ def cim_qa(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
         dx_dt = (p - 1) * x - alpha * x**3 + I_inj
         noise = noise_level * np.sqrt(dt) * np.random.normal(-1, 1, N)
         x = x + (dx_dt * dt) + noise
-        states[step + 1] = x
-    
-    return states, x
+
+        if step % steps_save_interval == 0: states[step + 1] = x
+
+    end_time = time.time()
+    simulation_time = end_time - start_time
+
+    return states, x, simulation_time
 
 
 
@@ -67,6 +76,7 @@ def cim_qa_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
     - N: Number of nodes in the network
     - M: Number of steps for the interpolation between Jb and Jp
     """
+    M = int(M)                                  #ensure M is an integer
     # Transfer data to GPU
     x = cp.array(x0)
     Jp = cp.array(J)
@@ -74,14 +84,15 @@ def cim_qa_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
 
     num_steps = int(T / dt)
     states = None
-    #states = np.zeros((num_steps + 1, N))
-    #states[0] = x0
+    states = cp.zeros((num_steps + 1, N))
+    states[0] = x
     #x = x0
     
-    #Jb = np.ones((N, N)) - np.eye(N)            #defining initial Hamiltonian (all 1s with no self-connections)
     J_t = Jb                                    #setting initial hamiltonian
 
     interval = num_steps // M                   #computing when hamiltonian needs to be updated
+
+    start_time = time.time()                    #starting before noise generation to be consistent with CPU version
 
     noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
 
@@ -100,11 +111,15 @@ def cim_qa_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
         #dx_dt = (p - 1) * x - alpha * x**3 + I_inj
         #noise = noise_level * np.sqrt(dt) * np.random.normal(-1, 1, N)
         #x = x + (dx_dt * dt) + noise
-        #states[step + 1] = x
+        if step % steps_save_interval == 0: states[step + 1] = x
 
     x = cp.asnumpy(x)
+    states = cp.asnumpy(states)
 
-    return states, x
+    end_time = time.time()
+    simulation_time = end_time - start_time
+
+    return states, x, simulation_time
 
 
 @cp.fuse()

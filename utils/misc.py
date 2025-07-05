@@ -38,7 +38,7 @@ def evaluate_maxcut(coupling_matrix, partition):
         for j in set2_indices:
             cut_value += coupling_matrix[i, j]
 
-    print(f"Cut value: {cut_value}")
+    #print(f"Cut value: {cut_value}")
 
     return cut_value
 
@@ -55,7 +55,7 @@ def evaluate_maxcut_fast(coupling_matrix, partition):
 
     cut = coupling_matrix[diff_mask].sum() * 0.5
 
-    print(f"Cut value: {cut}")
+    #print(f"Cut value: {cut}")
 
     return float(cut)
 

@@ -1,0 +1,141 @@
+{
+    "description": "Config file to run CIM-SNN on all problems with optimal parameters",
+    "author": "Vidisha Singhal",
+    "date": "2025-06-29",
+
+    "cim_type": "snn",
+    "T": 100,
+    "dt": 0.01,
+    "noise_level": 0.00,
+
+    "J_files": [
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.4.txt",
+            "N": 80,
+            "alpha": 1.2894,
+            "coupling_coeff": -0.7782,
+            "lambda_snn": 0.9957,
+            "p": 1.3667
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_80.7.txt",
+            "N": 80,
+            "alpha": 1.0872,
+            "coupling_coeff": -0.3251,
+            "lambda_snn": 0.9689,
+            "p": 1.9330
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.9.txt",
+            "N": 100,
+            "alpha": 1.4879,
+            "coupling_coeff": -0.7106,
+            "lambda_snn": 0.2998,
+            "p": 1.5344
+        },
+        {
+            "path": "data/biqmac/pm1s/pm1s_100.5.txt",
+            "N": 100,
+            "alpha": 1.2331,
+            "coupling_coeff": -0.7250,
+            "lambda_snn": 0.4538,
+            "p": 1.3246
+        },
+        {
+            "path": "data/gset/G6.txt",
+            "N": 800,
+            "alpha": 1.9354,
+            "coupling_coeff": -0.4147,
+            "lambda_snn": 0.3090,
+            "p": 2.0097
+        },
+        {
+            "path": "data/gset/G9.txt",
+            "N": 800,
+            "alpha": 2.0,
+            "coupling_coeff": -1.0,
+            "lambda_snn": 0.3427,
+            "p": 1.001
+        },
+        {
+            "path": "data/gset/G30.txt",
+            "N": 2000,
+            "alpha": 1.1349,
+            "coupling_coeff": -0.5978,
+            "lambda_snn": 0.1400,
+            "p": 2.0479
+        },
+        {
+            "path": "data/gset/G27.txt",
+            "N": 2000,
+            "alpha": 2.0,
+            "coupling_coeff": -0.9086,
+            "lambda_snn": 1.0,
+            "p": 1.001
+        },
+        {
+            "path": "data/gset/G59.txt",
+            "N": 5000,
+            "alpha": 1.5430,
+            "coupling_coeff": -0.1454,
+            "lambda_snn": 0.1120,
+            "p": 2.5732
+        },
+        {
+            "path": "data/gset/G57.txt",
+            "N": 5000,
+            "alpha": 0.2395,
+            "coupling_coeff": -0.8402,
+            "lambda_snn": 0.3191,
+            "p": 1.6226
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.5.txt",
+            "N": 100,
+            "alpha": 0.3303,
+            "coupling_coeff": -0.4506,
+            "lambda_snn": 0.8135,
+            "p": 2.7221
+        },
+        {
+            "path": "data/biqmac/w01/w01_100.8.txt",
+            "N": 100,
+            "alpha": 1.3299,
+            "coupling_coeff": -0.6797,
+            "lambda_snn": 0.14,
+            "p": 1.3385
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.2.txt",
+            "N": 100,
+            "alpha": 1.0334,
+            "coupling_coeff": -0.2184,
+            "lambda_snn": 0.7792,
+            "p": 1.2995
+        },
+        {
+            "path": "data/biqmac/w05/w05_100.9.txt",
+            "N": 100,
+            "alpha": 0.0467,
+            "coupling_coeff": -0.0812,
+            "lambda_snn": 0.8386,
+            "p": 2.7305
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.0.txt",
+            "N": 100,
+            "alpha": 0.7486,
+            "coupling_coeff": -0.0382,
+            "lambda_snn": 0.3565,
+            "p": 1.1052
+        },
+        {
+            "path": "data/biqmac/w09/w09_100.3.txt",
+            "N": 100,
+            "alpha": 1.2847,
+            "coupling_coeff": -0.4987,
+            "lambda_snn": 0.9351,
+            "p": 1.6388
+        }
+    ]
+}

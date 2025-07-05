@@ -13,6 +13,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
+steps_save_interval = 100
+
 def cim_cac(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_cac):
 
     """
@@ -31,14 +33,15 @@ def cim_cac(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_c
     """
 
     num_steps = int(T / dt)
-    #states = np.zeros((num_steps + 1, N))
+    states = np.zeros((num_steps + 1, N))
     states_e = np.zeros((num_steps + 1, N))
-    #states[0] = x0
+    states[0] = x0
     states_e[0] = -np.ones(N)
-    states = None
     
     x = x0
     e = states_e[0]
+
+    start_time = time.time()
 
     for step in range(num_steps):
         I_inj = -e * coupling_coeff * np.dot(J, x)
@@ -52,10 +55,13 @@ def cim_cac(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_c
         x = x + (dx_dt * dt) + noise
         e = e + (de_dt * dt)
         
-        #states[step + 1] = x
+        if step % steps_save_interval == 0: states[step + 1] = x
         #states_e[step + 1] = e
     
-    return states, x
+    end_time = time.time()
+    simulation_time = end_time - start_time
+
+    return states, x, simulation_time
 
 def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, rho_cac):
     
@@ -80,15 +86,17 @@ def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, r
 
     num_steps = int(T / dt)
     states = None
-    #states = np.zeros((num_steps + 1, N))
+    states = cp.zeros((num_steps + 1, N))
     #states_e = np.zeros((num_steps + 1, N))
-    #states[0] = x0
+    states[0] = x0_gpu
     #states_e[0] = np.random.uniform(-0.001, 0.001, N)
 
     e = -cp.ones(N)
     x = x0_gpu
 
     #e = states_e[0]
+
+    start_time = time.time()
 
     noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
 
@@ -106,12 +114,16 @@ def cim_cac_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cac, r
         #x = x + (dx_dt * dt) + noise
         #e = e + (de_dt * dt)
         
-        #states[step + 1] = x
+        if step % steps_save_interval == 0: states[step + 1] = x
         #states_e[step + 1] = e
     
     x = cp.asnumpy(x)
+    states = cp.asnumpy(states)
+    
+    end_time = time.time()
+    simulation_time = end_time - start_time
 
-    return states, x
+    return states, x, simulation_time
 
 
 @cp.fuse()

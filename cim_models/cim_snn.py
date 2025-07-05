@@ -10,6 +10,8 @@ import numpy as np
 import cupy as cp
 import time
 
+steps_save_interval = 100
+
 def cim_snn(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_snn):
     """
     params:
@@ -25,12 +27,14 @@ def cim_snn(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_snn):
     """
     num_steps = int(T / dt)
     states = None
-    #states = np.zeros((num_steps + 1, N))
-    #states[0] = x0
+    states = np.zeros((num_steps + 1, N))
+    states[0] = x0
     
     x = x0
 
     b = np.zeros(N)                                     #dissipative pulse values
+
+    start_time = time.time()
 
     for step in range(num_steps):
         I_inj = coupling_coeff * np.dot(J, x)
@@ -41,10 +45,13 @@ def cim_snn(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_snn):
         
         x = x + (dx_dt * dt) + noise
         b = b + (db_dt * dt)                            #updating the dissipative pulse values as in original paper
-        
-        #states[step + 1] = x
-    
-    return states, x
+
+        if step % steps_save_interval == 0: states[step + 1] = x
+
+    end_time = time.time()
+    simulation_time = end_time - start_time
+
+    return states, x, simulation_time
 
 
 
@@ -69,32 +76,30 @@ def cim_snn_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, lambda_s
 
     num_steps = int(T / dt)
     states = None
-    #states = np.zeros((num_steps + 1, N))
-    #states[0] = x0
-    
+    states = cp.zeros((num_steps + 1, N))
+    states[0] = x0_gpu
+
     x = x0_gpu
     b = cp.zeros(N)                                     #dissipative pulse values
-    noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
 
     start_time = time.time()
+
+    noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
 
     for step in range(num_steps):
         I_inj = coupling_coeff * cp.dot(J_gpu, x)
 
         x, b = fused_update(x, I_inj, noise[step], dt, alpha, p, b, lambda_snn)
-        
-        #dx_dt = (p - 1) * x - (alpha * x**3) - (lambda_snn * b) + I_inj
-        #db_dt = -lambda_snn * b + x
-        #noise = noise_level * np.sqrt(dt) * np.random.normal(-1, 1, N)
-        
-        #x = x + (dx_dt * dt) + noise
-        #b = b + (db_dt * dt)                            #updating the dissipative pulse values as in original paper
-        
-        #states[step + 1] = x
-    
-    x = cp.asnumpy(x)
 
-    return states, x
+        if step % steps_save_interval == 0: states[step + 1] = x
+
+    x = cp.asnumpy(x)
+    states = cp.asnumpy(states)
+
+    end_time = time.time()
+    simulation_time = end_time - start_time
+
+    return states, x, simulation_time
 
 
 @cp.fuse()
