@@ -11,7 +11,7 @@ import time
 
 steps_save_interval = 100
 
-def cim_qa(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
+def cim_qa(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M, linear_pump_schedule=None):
     """
     parameters:
     - x0: Initial state of the system (numpy array of size N)
@@ -50,6 +50,9 @@ def cim_qa(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
           else:
             J_t = (1 - lam) * Jb + lam * Jp     #interpolating between Jb and Jp
         
+        if linear_pump_schedule is not None:
+            pump_rate = linear_pump_schedule["start"] + (linear_pump_schedule["end"] - linear_pump_schedule["start"]) * (step / num_steps)
+
         I_inj = coupling_coeff * np.dot(J_t, x)
         dx_dt = (p - 1) * x - alpha * x**3 + I_inj
         noise = noise_level * np.sqrt(dt) * np.random.normal(-1, 1, N)
@@ -66,7 +69,7 @@ def cim_qa(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
 
 
 
-def cim_qa_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
+def cim_qa_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M, linear_pump_schedule=None):
     """
     parameters:
     - x0: Initial state of the system (numpy array of size N)
@@ -100,6 +103,10 @@ def cim_qa_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
     start_time = time.time()                    #starting before noise generation to be consistent with CPU version
 
     noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
+    
+    if linear_pump_schedule is not None:
+      pump_array = linear_pump_schedule["start"] + (linear_pump_schedule["end"] - linear_pump_schedule["start"]) * (cp.arange(num_steps) / (num_steps - 1))
+
 
     for step in range(num_steps):
         if step % interval == 0:
@@ -109,7 +116,9 @@ def cim_qa_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, M):
             J_t = Jp
           else:
             J_t = (1 - lam) * Jb + lam * Jp     #interpolating between Jb and Jp
-        
+
+        p = pump_array[step] if linear_pump_schedule is not None else p
+                  
         I_inj = coupling_coeff * cp.dot(J_t, x)
         x = fused_update(x, I_inj, noise[step], dt, alpha, p)
 

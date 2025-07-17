@@ -12,7 +12,7 @@ import time
 
 steps_save_interval = 100
 
-def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_cfc):
+def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_cfc, linear_pump_schedule=None):
     """
     parameters:
     - x0: Initial state of the system (numpy array of size N)
@@ -40,6 +40,10 @@ def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_c
     start_time = time.time()
 
     for step in range(num_steps):
+        #update pump rate if linear_pump_schedule is used
+        if linear_pump_schedule is not None:
+            p = linear_pump_schedule["start"] + (linear_pump_schedule["end"] - linear_pump_schedule["start"]) * (step / num_steps)
+
         I_inj = -e * coupling_coeff * np.dot(J, x)
         
         dx_dt = (p - 1) * x - (alpha * x**3) + I_inj
@@ -62,7 +66,7 @@ def cim_cfc(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_c
 
 
 
-def cim_cfc_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_cfc):
+def cim_cfc_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, rho_cfc, linear_pump_schedule=None):
     
     """
     parameters:
@@ -98,8 +102,11 @@ def cim_cfc_gpu(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, c_cfc, r
 
     start_time = time.time()
     noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
+    if linear_pump_schedule is not None:
+        pump_array = linear_pump_schedule["start"] + (linear_pump_schedule["end"] - linear_pump_schedule["start"]) * (cp.arange(num_steps) / (num_steps - 1))
 
     for step in range(num_steps):
+        p = pump_array[step] if linear_pump_schedule is not None else p
         I_inj = -e * coupling_coeff * cp.dot(J_gpu, x)
 
         x, e = fused_update(x, I_inj, noise[step], dt, alpha, p, e, rho_cfc, c_cfc)

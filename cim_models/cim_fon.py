@@ -11,7 +11,7 @@ import time
 
 steps_save_interval = 100
 
-def cim_fon(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, beta):
+def cim_fon(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, beta, linear_pump_schedule=None):
     """    
     params:
     - x0: initial state of the system (numpy array of size N, random values)
@@ -34,6 +34,9 @@ def cim_fon(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, beta):
     start_time = time.time()
     
     for step in range(num_steps):
+        if linear_pump_schedule is not None:
+            p = linear_pump_schedule["start"] + (linear_pump_schedule["end"] - linear_pump_schedule["start"]) * (step / num_steps)
+
         I_inj = coupling_coeff * np.dot(J, x)
         
         dx_dt = (p - 1) * x - (alpha * x**3) + (beta * x**5) + I_inj    #adding the fifth-order term in addition to standard cim
@@ -52,7 +55,7 @@ def cim_fon(x0, alpha, p, J, noise_level, coupling_coeff, dt, T, N, beta):
 
 
 
-def cim_fon_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff, beta):
+def cim_fon_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff, beta, linear_pump_schedule=None):
     """
     GPU-accelerated version of the CIM-FON model using CuPy
     params:
@@ -81,9 +84,13 @@ def cim_fon_gpu(x0, J, noise_level, dt, T, N, alpha, p, coupling_coeff, beta):
 
     start_time = time.time()
     noise = noise_level * cp.sqrt(dt) * cp.random.normal(-1, 1, size=(num_steps, N))
-        
-    for step in range(num_steps):
-        #print(f"Step {step}!")
+    if linear_pump_schedule is not None:
+        pump_array = linear_pump_schedule["start"] + (linear_pump_schedule["end"] - linear_pump_schedule["start"]) * (cp.arange(num_steps) / (num_steps - 1))
+
+    for step in range(num_steps): 
+        if linear_pump_schedule is not None:
+            p = pump_array[step]
+            
         I_inj = coupling_coeff * cp.dot(J_gpu, x)
 
         #dx_dt = (p - 1) * x - alpha * x**3 + I_inj
